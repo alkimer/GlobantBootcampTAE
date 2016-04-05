@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,7 +15,7 @@ import org.testng.annotations.Test;
 
 import com.thoughtworks.selenium.Selenium;
 
-public class App {
+public class Tema1ej1 {
 	private WebDriver driver;
 
 	@BeforeMethod(alwaysRun = true)
@@ -50,33 +51,36 @@ public class App {
 	    }
 	    return true;
 	}
-	@Test(description = "Exercise")
+	
+	private boolean contienePalabra(String in_texto, String in_palabra)
+	
+	{
+		boolean resultado;
+		if (in_texto.contains(in_palabra))
+			 return true;
+					
+			 else
+				 return false;
+		
+		
+	}
+	@Test(description = "Exercise01-tema1")
 	public void exercise01() {
-		WebElement in_userName ;
-		WebElement in_password ;
-		WebElement in_button;
-		WebElement usuario_recibido;
-		WebElement mensaje_recibido;
+		WebElement comentario ;
+		final String URL = "http://labrujula24.com/noticias/2016/23073_Mira-el-video-de-la-patada-criminal-que-estremecio-al-mundo-del-rugby";
+		final String palabra = "Noticia";
+	
+		final String texto_a_comparar = "Noticia";
+		String texto_comentario;
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.get(URL);
+		driver.switchTo().frame(driver.findElement(By.xpath("//div[@class='column-left']//iframe[@class='fb_ltr']")));
+
+		comentario = driver.findElement(By.cssSelector("._5mdd"));
+	
+		System.out.println("comentario leido : " + comentario.getText());
+		Assert.assertTrue(contienePalabra(comentario.getText(), palabra), "No se encontr� la palabra: " + palabra + ".");
 		
-		final String header_comp = "Selenium Test Header";
-		String resultado;
-	//	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driver.get("http://tvroom.github.io/selenium-exercises/ex2/");
-		in_userName = driver.findElement(By.name("username"));
-		in_password = driver.findElement(By.name("password"));
-		in_button = driver.findElement(By.cssSelector("input[type=\"submit\"]"));
-		
-		in_userName.sendKeys("bob");
-		in_password.sendKeys("foobaz");
-		in_button.click();
-		
-		
-		usuario_recibido = driver.findElement(By.cssSelector("h2.user"));
-		
-		mensaje_recibido = existsElementCSS("h2.error")? driver.findElement(By.cssSelector("h2.error")) : null ;
-	//	mensaje_recibido = driver.findElement(By.cssSelector("h2.error"));
-	//	resultado = (header.getText().equals(header_comp)) ? "IGUAL": "DISTINTO" ;
-		System.out.println(usuario_recibido.getText() + " : " + (mensaje_recibido != null ? mensaje_recibido.getText() : "Login OK"));
 		
 	}
 }
